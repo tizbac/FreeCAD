@@ -1,6 +1,11 @@
 Stable release (branch [LinkStable](https://github.com/realthunder/FreeCAD/tree/LinkStable)) is merged with upstream aa3b2f39 2023.05.22
 
-# Stable 2024.01.01
+# Stable 2024.01.04
+
+Fix notification background with stylesheet (#923)
+Sketcher: fix crash on editing (#922)
+
+-- 20240104stable --
 
 # Stable|Tip 2023.12.31
 
@@ -15,8 +20,6 @@ Sketcher: fix projection error in OCC 7.7
 Sketcher: fix crash on adding tagent (#917)
 TechDraw: fix circle center vertex selection (#907)
 TechDraw: fix undesired border when drawing SVG pattern (#909)
-
--- 20231231stable --
 
 # Tip 2023.11.02
 
