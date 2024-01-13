@@ -11,7 +11,7 @@ PartDesign: improve handling of split profile in Loft
 PartDesign: expose `Linearize` option to editing task panel
 Sketcher: fix circle to circle distance constraint (#928)
 
--- 20240104stable --
+-- 20240113stable --
 
 # Stable 2024.01.04
 
