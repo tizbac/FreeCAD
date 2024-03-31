@@ -36,7 +36,7 @@
 class QAction;
 class QToolBar;
 class QMouseEvent;
-class StatusBarArea;
+class ToolBarArea;
 
 namespace Gui {
 
@@ -104,9 +104,10 @@ public:
     void setDefaultMovable(bool enable);
     bool isDefaultMovable() const;
     void retranslate();
-    static void checkToolbar();
+    static void checkToolBar();
 
-    void setToolbarVisibility(bool show, const QList<QString>& names);
+    void setToolBarVisibility(bool show, const QList<QString>& names);
+    void setToolBarVisible(QToolBar *toolbar, bool show);
 
     void removeToolBar(const QString &);
 
@@ -114,8 +115,8 @@ public:
     static QString generateToolBarID(const char *groupName, const char *name);
 
     static QSize actionsIconSize(const QSize &s, const QList<QAction*> &actions);
-    void checkToolbarIconSize(QAction *action);
-    void checkToolbarIconSize(QToolBar *tb);
+    void checkToolBarIconSize(QAction *action);
+    void checkToolBarIconSize(QToolBar *tb);
 
     int toolBarIconSize() const;
 
@@ -131,12 +132,11 @@ protected:
     QAction* findAction(const QList<QAction*>&, const QString&) const;
     QToolBar *createToolBar(const QString &name);
     void connectToolBar(QToolBar *);
-    void setToolBarVisible(QToolBar *toolbar, bool show);
-    void getGlobalToolbarNames();
+    void getGlobalToolBarNames();
     bool eventFilter(QObject *, QEvent *);
 
-    bool addToolbarToStatusBar(QObject *, QMouseEvent*);
-    void showStatusBarContextMenu();
+    bool addToolBarToArea(QObject *, QMouseEvent*);
+    bool showContextMenu(QObject *);
     void onToggleStatusBarWidget(QWidget *, bool);
 
     ToolBarManager();
@@ -146,6 +146,7 @@ private:
     QTimer timer;
     QTimer timerChild;
     QTimer timerResize;
+    QTimer menuBarTimer;
     QStringList toolbarNames;
     static ToolBarManager* _instance;
     ParameterGrp::handle hPref;
@@ -153,6 +154,8 @@ private:
     ParameterGrp::handle hMainWindow;
     ParameterGrp::handle hGlobal;
     ParameterGrp::handle hStatusBar;
+    ParameterGrp::handle hMenuBarLeft;
+    ParameterGrp::handle hMenuBarRight;
     ParameterGrp::handle hGeneral;
     boost::signals2::scoped_connection connParam;
     bool restored = false;
@@ -162,7 +165,9 @@ private:
     Qt::ToolBarArea globalArea;
     std::set<QString> globalToolBarNames;
     std::map<QToolBar*, QPointer<QToolBar>> connectedToolBars;
-    StatusBarArea *statusBarArea = nullptr;
+    ToolBarArea *statusBarArea = nullptr;
+    ToolBarArea *menuBarLeftArea = nullptr;
+    ToolBarArea *menuBarRightArea = nullptr;
 
     std::map<QToolBar*, QPointer<QToolBar>> resizingToolBars;
 };
