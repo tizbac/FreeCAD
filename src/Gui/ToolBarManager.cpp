@@ -1368,4 +1368,17 @@ void ToolBarManager::checkToolBarIconSize(QAction *action)
     }
 }
 
+void ToolBarManager::setupToolBarIconSize()
+{
+    int pixel = toolBarIconSize();
+    QSize size(pixel, pixel);
+    getMainWindow()->setIconSize(size);
+    auto setToolBarSize = [size](QToolBar *tb, int) {
+        tb->setIconSize(size);
+    };
+    statusBarArea->foreachToolBar(setToolBarSize);
+    menuBarLeftArea->foreachToolBar(setToolBarSize);
+    menuBarRightArea->foreachToolBar(setToolBarSize);
+}
+
 #include "moc_ToolBarManager.cpp"

@@ -119,6 +119,7 @@ public:
     void checkToolBarIconSize(QToolBar *tb);
 
     int toolBarIconSize() const;
+    void setupToolBarIconSize();
 
 protected Q_SLOTS:
     void onToggleToolBar(bool);
