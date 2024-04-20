@@ -3541,9 +3541,6 @@ void ViewProviderSketch::updateColor(void)
 
     auto setConstraintColors = [&](int i, const SbColor *highlightColor) {
         SoSeparator *s = static_cast<SoSeparator *>(edit->constrGroup->getChild(i));
-        if (s->getNumChildren() == 0) {
-            return;
-        }
 
         // Check Constraint Type
         Sketcher::Constraint* constraint = getSketchObject()->Constraints.getValues()[i];
@@ -4022,9 +4019,6 @@ void ViewProviderSketch::drawConstraintIcons()
         SoSeparator *sep = static_cast<SoSeparator *>(edit->constrGroup->getChild(constrId));
         int numChildren = sep->getNumChildren();
         if (numChildren <= CONSTRAINT_SEPARATOR_INDEX_FIRST_CONSTRAINTID) {
-#ifdef FC_DEBUG
-            FC_ERR("Invalid constraint node " << constrId);
-#endif
             break;
         }
 
