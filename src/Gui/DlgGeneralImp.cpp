@@ -567,7 +567,13 @@ void DlgGeneralImp::attachObserver()
     handlers.addHandler(hGeneral, "Language", applyLanguage);
     handlers.addHandler(hGeneral, "SubstituteDecimal", applyDecimalPointConversion);
     handlers.addHandler(hGeneral, "EnableCursorBlinking", applyCursorBlinking);
-    handlers.addDelayedHandler(hGeneral, "ToolbarIconSize", applyToolbarIconSize);
+    handlers.addDelayedHandler(hGeneral,
+                              {"ToolbarIconSize",
+                               "StatusBarIconSize",
+                               "MenuBarIconSize",
+                               "WorkbenchTabIconSize",
+                               "WorkbenchComboIconSize",},
+                              applyToolbarIconSize);
     handlers.addHandler(hGeneral, "PythonWordWrap", applyPythonWordWrap);
 
     ViewParams::init();
