@@ -950,7 +950,7 @@ bool SelectionMenu::eventFilter(QObject *o, QEvent *ev)
 {
     switch(ev->type()) {
     case QEvent::Show: {
-        Gui::Selection().rmvPreselect();
+        // Gui::Selection().rmvPreselect();
         break;
     }
     case QEvent::MouseButtonRelease: {
