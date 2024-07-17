@@ -2194,18 +2194,21 @@ extern "C" {
 // backdoor to be called inside OCC for showing intermediate results
 void showTopoShape(const TopoDS_Shape &s, const char *name)
 {
-    Part::Feature::create(s, name);
+    char _name[256];
+    snprintf(_name, sizeof(_name), "%s_%x_", name, s.HashCode(0xffff));
+    auto obj = Part::Feature::create(s, name);
+    obj->Label.setValue(_name);
 }
 
 void showTopoShapes(const TopoDS_Shape &s, const char *name, const TopTools_ListOfShape &shapes)
 {
     if (!s.IsNull())
-        Part::Feature::create(s, name);
+        showTopoShape(s, name);
     std::string nn(name);
     nn+="_list";
     TopTools_ListIteratorOfListOfShape it(shapes);
     for (; it.More(); it.Next()) {
-        Part::Feature::create(it.Value(), nn.c_str());
+        showTopoShape(it.Value(), nn.c_str());
     }
 }
 }
