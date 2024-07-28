@@ -3065,11 +3065,15 @@ void TopoShape::meshShape(double linearDeflection,
     if (angularDeflection == 0.0)
         angularDeflection = std::max(PartParams::getMeshAngularDeflection(),
                                      PartParams::getMinimumAngularDeflection());
-    BRepMesh_IncrementalMesh aMesh(_Shape,
-                                   linearDeflection,
-                                   relative ? Standard_True : Standard_False,
-                                   angularDeflection,
-                                   parallel ? Standard_True : Standard_False);
+    try {
+      BRepMesh_IncrementalMesh aMesh(_Shape,
+                                    linearDeflection,
+                                    relative ? Standard_True : Standard_False,
+                                    angularDeflection,
+                                    parallel ? Standard_True : Standard_False);
+    } catch (Standard_Failure &e) {
+      FC_THROWM(Base::CADKernelError,"Shape meshing failed: " << e.GetMessageString());
+    }
 }
 
 void TopoShape::getDomains(std::vector<Domain>& domains) const
@@ -3471,6 +3475,8 @@ void TopoShape::getPoints(std::vector<Base::Vector3d> &Points,
     const int minPointsPerEdge = 30;
     const double lateralDistance = Accuracy;
 
+    try {
+
     // get all 3d points from free vertices
     for (TopExp_Explorer xp(_Shape, TopAbs_VERTEX, TopAbs_EDGE); xp.More(); xp.Next()) {
         gp_Pnt p = BRep_Tool::Pnt(TopoDS::Vertex(xp.Current()));
@@ -3594,6 +3600,10 @@ void TopoShape::getPoints(std::vector<Base::Vector3d> &Points,
     // if no faces are found then the normals can be cleared
     if (!hasFaces)
         Normals.clear();
+    
+    } catch (Standard_Failure &e) {
+      FC_THROWM(Base::CADKernelError,"Failed to get points from shape: " << e.GetMessageString());
+    }
 }
 
 void TopoShape::getLinesFromSubElement(const Data::Segment* element,

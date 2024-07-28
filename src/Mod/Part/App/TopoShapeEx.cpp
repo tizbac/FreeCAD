@@ -2190,29 +2190,6 @@ void GenericShapeMapper::init(const TopoShape &src, const TopoDS_Shape &dst)
     }
 }
 
-extern "C" {
-// backdoor to be called inside OCC for showing intermediate results
-void showTopoShape(const TopoDS_Shape &s, const char *name)
-{
-    char _name[256];
-    snprintf(_name, sizeof(_name), "%s_%x_", name, s.HashCode(0xffff));
-    auto obj = Part::Feature::create(s, name);
-    obj->Label.setValue(_name);
-}
-
-void showTopoShapes(const TopoDS_Shape &s, const char *name, const TopTools_ListOfShape &shapes)
-{
-    if (!s.IsNull())
-        showTopoShape(s, name);
-    std::string nn(name);
-    nn+="_list";
-    TopTools_ListIteratorOfListOfShape it(shapes);
-    for (; it.More(); it.Next()) {
-        showTopoShape(it.Value(), nn.c_str());
-    }
-}
-}
-
 TopoShape &TopoShape::makEPrismUntil(const TopoShape &_base,
                                      const TopoShape& profile,
                                      const TopoShape& supportFace,
