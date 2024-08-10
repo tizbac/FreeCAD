@@ -45,8 +45,8 @@ public:
     App::Property *prepare(App::CellAddress &from, App::CellAddress &to,
                 std::string &rangeConf, App::ObjectIdentifier &path, bool init);
 
-public Q_SLOTS:
     void onDiscard();
+    void onChangeVertical(bool checked);
 
 private:
     Spreadsheet::Sheet * sheet;
