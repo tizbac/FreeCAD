@@ -274,6 +274,11 @@ void TaskTransformedParameters::setupBaseUI() {
                                         "or else, transform the entire history up till the selected base."));
     checkBoxSubTransform->setChecked(getObject()->SubTransform.getValue());
 
+    checkBoxOffsetBaseFeature = new QCheckBox(this);
+    checkBoxOffsetBaseFeature->setText(tr("Offset base feature"));
+    checkBoxOffsetBaseFeature->setToolTip(tr("Check this option to apply transform offset to base feature if possible"));
+    checkBoxOffsetBaseFeature->setChecked(getObject()->OffsetBaseFeature.getValue());
+
     checkBoxParallel = new QCheckBox(this);
     checkBoxParallel->setText(tr("Operate in parallel"));
     checkBoxParallel->setToolTip(
@@ -294,6 +299,7 @@ void TaskTransformedParameters::setupBaseUI() {
     grid->addWidget(checkBoxNewSolid, 2, 0);
     grid->addWidget(checkBoxSubTransform, 2, 1);
     grid->addWidget(checkBoxParallel, 3, 0);
+    grid->addWidget(checkBoxOffsetBaseFeature, 3, 1);
 
     splitter = new QSplitter(Qt::Vertical, this);
     splitter->addWidget(labelMessage);
@@ -384,6 +390,7 @@ void TaskTransformedParameters::setupBaseUI() {
 
     QMetaObject::connectSlotsByName(this);
     Base::connect(checkBoxSubTransform, &QCheckBox::toggled, this, &TaskTransformedParameters::onChangedSubTransform);
+    Base::connect(checkBoxOffsetBaseFeature, &QCheckBox::toggled, this, &TaskTransformedParameters::onChangedOffsetBaseFeature);
     Base::connect(checkBoxParallel, &QCheckBox::toggled, this, &TaskTransformedParameters::onChangedParallelTransform);
     Base::connect(checkBoxNewSolid, &QCheckBox::toggled, this, &TaskTransformedParameters::onChangedNewSolid);
     Base::connect(linkEditor, &DlgPropertyLink::linkChanged, this, &TaskTransformedParameters::originalSelectionChanged);
@@ -412,6 +419,10 @@ void TaskTransformedParameters::refresh()
         if(checkBoxSubTransform) {
             QSignalBlocker blocker(checkBoxSubTransform);
             checkBoxSubTransform->setChecked(getObject()->SubTransform.getValue());
+        }
+        if(checkBoxOffsetBaseFeature) {
+            QSignalBlocker blocker(checkBoxOffsetBaseFeature);
+            checkBoxOffsetBaseFeature->setChecked(getObject()->OffsetBaseFeature.getValue());
         }
         if(checkBoxParallel) {
             QSignalBlocker blocker(checkBoxParallel);
@@ -591,6 +602,12 @@ void TaskTransformedParameters::addReferenceSelectionGate(AllowSelectionFlags al
 void TaskTransformedParameters::onChangedSubTransform(bool checked) {
     setupTransaction();
     getObject()->SubTransform.setValue(checked);
+    recomputeFeature();
+}
+
+void TaskTransformedParameters::onChangedOffsetBaseFeature(bool checked) {
+    setupTransaction();
+    getObject()->OffsetBaseFeature.setValue(checked);
     recomputeFeature();
 }
 
