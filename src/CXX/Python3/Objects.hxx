@@ -1783,7 +1783,7 @@ namespace Py
     typedef std::basic_string<Py_UNICODE> unicodestring;
     extern Py_UNICODE unicode_null_string[1];
 #endif
-    typedef std::basic_string<Py_UCS4> ucs4string;
+    typedef std::basic_string<char32_t> ucs4string;
     extern Py_UCS4 ucs4_null_string[1];
 
     class PYCXX_EXPORT Byte: public Object
@@ -2233,7 +2233,7 @@ namespace Py
             {
                 ifPyErrorThrowCxxException();
             }
-            ucs4string ucs4( buf, size() );
+            ucs4string ucs4( (char32_t*)buf, size() );
             delete[] buf;
 
             return ucs4;
