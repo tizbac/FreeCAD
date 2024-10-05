@@ -890,7 +890,7 @@ std::set<int> FemMesh::getNodesBySolid(const TopoDS_Solid &solid) const
     }
 
 #pragma omp parallel for schedule(dynamic)
-    for (size_t i = 0; i < nodes.size(); ++i) {
+    for (int i = 0; i < static_cast<int>(nodes.size()); ++i) {
         const SMDS_MeshNode* aNode = nodes[i];
         double xyz[3];
         aNode->GetXYZ(xyz);
@@ -942,7 +942,7 @@ std::set<int> FemMesh::getNodesByFace(const TopoDS_Face &face) const
     }
 
 #pragma omp parallel for schedule(dynamic)
-    for (size_t i = 0; i < nodes.size(); ++i) {
+    for (int i = 0; i < static_cast<int>(nodes.size()); ++i) {
         const SMDS_MeshNode* aNode = nodes[i];
         double xyz[3];
         aNode->GetXYZ(xyz);
@@ -992,7 +992,7 @@ std::set<int> FemMesh::getNodesByEdge(const TopoDS_Edge &edge) const
     }
 
 #pragma omp parallel for schedule(dynamic)
-    for (size_t i = 0; i < nodes.size(); ++i) {
+    for (int i = 0; i < static_cast<int>(nodes.size()); ++i) {
         const SMDS_MeshNode* aNode = nodes[i];
         double xyz[3];
         aNode->GetXYZ(xyz);
@@ -1041,7 +1041,7 @@ std::set<int> FemMesh::getNodesByVertex(const TopoDS_Vertex &vertex) const
     }
 
 #pragma omp parallel for schedule(dynamic)
-    for (size_t i = 0; i < nodes.size(); ++i) {
+    for (int i = 0; i < static_cast<int>(nodes.size()); ++i) {
         const SMDS_MeshNode* aNode = nodes[i];
         double xyz[3];
         aNode->GetXYZ(xyz);
