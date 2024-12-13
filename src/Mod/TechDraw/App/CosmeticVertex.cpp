@@ -190,14 +190,14 @@ std::string CosmeticVertex::getTagAsString() const
 void CosmeticVertex::createNewTag()
 {
     // Initialize a random number generator, to avoid Valgrind false positives.
-    static boost::mt19937 ran;
+    static std::mt19937 ran;
     static bool seeded = false;
 
     if (!seeded) {
         ran.seed(static_cast<unsigned int>(std::time(nullptr)));
         seeded = true;
     }
-    static boost::uuids::basic_random_generator<boost::mt19937> gen(&ran);
+    static boost::uuids::basic_random_generator<std::mt19937> gen(&ran);
 
     tag = gen();
 }

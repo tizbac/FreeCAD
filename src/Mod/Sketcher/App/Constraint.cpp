@@ -58,14 +58,14 @@ Constraint::Constraint()
       isActive(true)
 {
     // Initialize a random number generator, to avoid Valgrind false positives.
-    static boost::mt19937 ran;
+    static std::mt19937 ran;
     static bool seeded = false;
 
     if (!seeded) {
         ran.seed(QDateTime::currentMSecsSinceEpoch() & 0xffffffff);
         seeded = true;
     }
-    static boost::uuids::basic_random_generator<boost::mt19937> gen(&ran);
+    static boost::uuids::basic_random_generator<std::mt19937> gen(&ran);
 
     tag = gen();
 }

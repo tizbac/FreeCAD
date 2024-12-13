@@ -30,6 +30,7 @@
 #endif
 
 #include <boost/filesystem.hpp>
+#include <boost/filesystem/operations.hpp>
 #include <QDir>
 
 #include "PreferencePackManager.h"
@@ -221,7 +222,11 @@ void Gui::PreferencePackManager::importConfig(const std::string& packName,
     auto savedPreferencePacksDirectory =
         fs::path(App::Application::getUserAppDataDir()) / "SavedPreferencePacks";
     auto cfgFilename = savedPreferencePacksDirectory / packName / (packName + ".cfg");
+#if BOOST_VERSION >= 107400
+    fs::copy_file(path, cfgFilename, fs::copy_options::overwrite_existing);
+#else
     fs::copy_file(path, cfgFilename, fs::copy_option::overwrite_if_exists);
+#endif
     rescan();
 }
 

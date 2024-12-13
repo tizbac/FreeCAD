@@ -42,7 +42,7 @@ namespace detail { namespace relate {
 template <std::size_t OpId,
           typename Geometry,
           typename Tag = typename geometry::tag<Geometry>::type,
-          bool IsMulti = boost::is_base_of<multi_tag, Tag>::value
+          bool IsMulti = std::is_base_of<multi_tag, Tag>::value
 >
 struct for_each_disjoint_geometry_if
     : public not_implemented<Tag>
