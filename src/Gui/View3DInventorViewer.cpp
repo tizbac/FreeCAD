@@ -3098,6 +3098,12 @@ void View3DInventorViewer::renderScene()
 
     if(restoreGradient)
         setGradientBackground(grad);
+    
+    //Fix wrongly transparent windows on wayland because of alpha not being 0 after rendering transparent items 
+    glColorMask(0,0,0,1);
+    glClearColor(0,0,0,1);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glColorMask(1,1,1,1);
 }
 
 void View3DInventorViewer::setSeekMode(SbBool on)
